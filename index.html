@@ -191,6 +191,20 @@ section{padding:5rem 2rem}
 .project-features li{font-size:.88rem;color:var(--text-secondary);padding:.3rem 0}
 .project-features li::before{content:'▸ ';color:var(--primary);font-weight:700}
 
+/* ===== Back to Top ===== */
+.back-to-top{
+  position:fixed;bottom:2rem;right:2rem;z-index:99;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--primary);color:#fff;border:none;
+  cursor:pointer;font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(26,86,219,.3);
+  opacity:0;visibility:hidden;transform:translateY(12px);
+  transition:opacity .3s,visibility .3s,transform .3s,background .3s
+}
+.back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:var(--primary-dark);transform:translateY(-2px)}
+
 /* ===== Contact ===== */
 .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
 .contact-card{background:var(--card-bg);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;transition:all .3s}
@@ -364,6 +378,9 @@ footer span{color:var(--primary)}
 </div>
 <input type="file" id="avatarInput" accept="image/*">
 <div class="toast" id="toast"></div>
+
+<!-- ===== Back to Top ===== -->
+<button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
 
 <footer><p>© 2026 <span>陈凯</span> · <span data-i18n="footer.tag">个人主页 · 持续构建中</span> 🚀</p></footer>
 
@@ -599,7 +616,12 @@ function showToast(msg){
 
 // ========== NAVBAR ==========
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+  backToTop.classList.toggle('show', window.scrollY > 400);
+});
+backToTop.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
