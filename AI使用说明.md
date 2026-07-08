@@ -39,16 +39,7 @@
 
 ## 5. 最终网站链接
 
-**线上地址**：
-
-- 🚀 备用地址（localtunnel）：https://curvy-areas-know.loca.lt
-
-> 说明：GitHub Pages 部署完成后地址将更新为此处。本地开发服务器 + localtunnel 启动方式：
-> ```bash
-> cd portfolio
-> python -m http.server 8080 &
-> npx localtunnel --port 8080
-> ```
+**线上地址**：🌐 **https://qing149.github.io/portfolio/**
 
 ---
 
