@@ -75,8 +75,67 @@ ul{list-style:none}
   margin:0 auto 1.5rem;
   display:flex;align-items:center;justify-content:center;
   font-size:2.2rem;color:#fff;font-weight:700;
-  box-shadow:0 8px 32px rgba(26,86,219,.2)
+  box-shadow:0 8px 32px rgba(26,86,219,.2);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;user-select:none
 }
+.hero-avatar:hover{transform:scale(1.06);box-shadow:0 12px 40px rgba(26,86,219,.3)}
+.hero-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.hero-avatar .avatar-overlay{
+  position:absolute;inset:0;border-radius:50%;
+  background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;font-size:.75rem;color:#fff
+}
+.hero-avatar:hover .avatar-overlay{opacity:1}
+
+/* ===== Avatar Dropdown ===== */
+.avatar-dropdown{
+  position:absolute;top:105px;left:50%;transform:translateX(-50%);
+  background:#fff;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.15);
+  padding:.4rem;min-width:150px;z-index:50;
+  opacity:0;visibility:hidden;transform-origin:top center;
+  transition:opacity .25s,visibility .25s,transform .25s;
+  border:1px solid var(--light-gray)
+}
+.avatar-dropdown.show{opacity:1;visibility:visible}
+.avatar-dropdown button{
+  display:block;width:100%;padding:.6rem 1rem;border:none;background:none;
+  cursor:pointer;font-size:.85rem;color:var(--dark);text-align:left;
+  border-radius:6px;transition:background .2s;font-family:inherit
+}
+.avatar-dropdown button:hover{background:var(--primary-light);color:var(--primary)}
+
+/* ===== Avatar Lightbox ===== */
+.lightbox{
+  position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s
+}
+.lightbox.show{opacity:1;visibility:visible}
+.lightbox-content{
+  max-width:420px;max-height:80vh;text-align:center
+}
+.lightbox-content img{
+  max-width:100%;max-height:60vh;border-radius:16px;
+  box-shadow:0 16px 48px rgba(0,0,0,.4)
+}
+.lightbox-close{
+  position:absolute;top:2rem;right:2rem;width:40px;height:40px;
+  border-radius:50%;border:none;background:rgba(255,255,255,.2);
+  color:#fff;font-size:1.4rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s
+}
+.lightbox-close:hover{background:rgba(255,255,255,.35)}
+.lightbox .avatar-fallback{
+  width:200px;height:200px;border-radius:50%;
+  background:linear-gradient(135deg, var(--primary), var(--accent));
+  margin:0 auto;display:flex;align-items:center;justify-content:center;
+  font-size:4rem;color:#fff;font-weight:700
+}
+
+/* hidden file input */
+#avatarInput{display:none}
 .hero h1{font-size:2.8rem;font-weight:800;color:var(--dark);margin-bottom:.5rem;letter-spacing:2px}
 .hero .subtitle{font-size:1.15rem;color:var(--gray);margin-bottom:.5rem;font-weight:400}
 .hero .tagline{font-size:.95rem;color:var(--gray);margin-bottom:2rem;line-height:1.8}
@@ -213,7 +272,13 @@ footer span{color:var(--primary)}
 <!-- ===== Hero ===== -->
 <section class="hero" id="home">
   <div class="hero-content">
-    <div class="hero-avatar">陈</div>
+    <div class="hero-avatar" id="heroAvatar">陈
+      <div class="avatar-overlay">📷</div>
+      <div class="avatar-dropdown" id="avatarDropdown">
+        <button id="btnView">🔍 查看头像</button>
+        <button id="btnChange">📁 更换头像</button>
+      </div>
+    </div>
     <h1>陈&ensp;凯</h1>
     <p class="subtitle">数据科学与大数据技术 · 本科应届</p>
     <p class="tagline">
@@ -388,6 +453,13 @@ footer span{color:var(--primary)}
 </div>
 </section>
 
+<!-- ===== Avatar Lightbox ===== -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <div class="lightbox-content" id="lightboxContent"></div>
+</div>
+<input type="file" id="avatarInput" accept="image/*">
+
 <!-- ===== Footer ===== -->
 <footer>
   <p>© 2026 <span>陈凯</span> · 个人主页 · 持续构建中 🚀</p>
@@ -395,13 +467,12 @@ footer span{color:var(--primary)}
 
 <!-- ===== Scripts ===== -->
 <script>
-// Navbar scroll effect
+// ========== Navbar ==========
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// Active nav link
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll', () => {
@@ -414,26 +485,133 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// Fade-in on scroll
+// ========== Fade-in ==========
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, {threshold:0.15});
 document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
-// Trigger initial visible sections
-setTimeout(() => observer.flicker?.(), 100);
-window.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.fade-section').forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if(rect.top < window.innerHeight) el.classList.add('visible');
-  });
-});
-// Also trigger manually
 setTimeout(() => {
   document.querySelectorAll('.fade-section').forEach(el => {
     const rect = el.getBoundingClientRect();
     if(rect.top < window.innerHeight) el.classList.add('visible');
   });
 }, 300);
+
+// ========== Avatar ==========
+const heroAvatar = document.getElementById('heroAvatar');
+const avatarDropdown = document.getElementById('avatarDropdown');
+const btnView = document.getElementById('btnView');
+const btnChange = document.getElementById('btnChange');
+const lightbox = document.getElementById('lightbox');
+const lightboxContent = document.getElementById('lightboxContent');
+const lightboxClose = document.getElementById('lightboxClose');
+const avatarInput = document.getElementById('avatarInput');
+
+let dropdownTimer = null;
+
+// Click avatar → toggle dropdown
+heroAvatar.addEventListener('click', (e) => {
+  e.stopPropagation();
+  avatarDropdown.classList.toggle('show');
+});
+
+// Close dropdown on outside click
+document.addEventListener('click', () => {
+  avatarDropdown.classList.remove('show');
+});
+
+// View avatar → lightbox
+btnView.addEventListener('click', (e) => {
+  e.stopPropagation();
+  avatarDropdown.classList.remove('show');
+  const saved = localStorage.getItem('userAvatar');
+  if (saved) {
+    lightboxContent.innerHTML = `<img src="${saved}" alt="头像">`;
+  } else {
+    lightboxContent.innerHTML = `<div class="avatar-fallback">陈</div>`;
+  }
+  lightbox.classList.add('show');
+});
+
+// Change avatar → file input
+btnChange.addEventListener('click', (e) => {
+  e.stopPropagation();
+  avatarDropdown.classList.remove('show');
+  avatarInput.click();
+});
+
+// Handle file selection
+avatarInput.addEventListener('change', () => {
+  const file = avatarInput.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert('图片大小不能超过 5MB');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const dataUrl = reader.result;
+    localStorage.setItem('userAvatar', dataUrl);
+    heroAvatar.innerHTML = `<img src="${dataUrl}" alt="头像"><div class="avatar-overlay">📷</div><div class="avatar-dropdown" id="avatarDropdown"><button id="btnView">🔍 查看头像</button><button id="btnChange">📁 更换头像</button></div>`;
+    // Re-bind events
+    rebindAvatar();
+  };
+  reader.readAsDataURL(file);
+});
+
+// Close lightbox
+lightboxClose.addEventListener('click', () => lightbox.classList.remove('show'));
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) lightbox.classList.remove('show');
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') lightbox.classList.remove('show');
+});
+
+// Load saved avatar on init
+function rebindAvatar() {
+  // Re-reference elements after innerHTML
+  window._heroAvatar = document.getElementById('heroAvatar');
+  window._avatarDropdown = document.getElementById('avatarDropdown');
+  document.getElementById('btnView').addEventListener('click', (e) => {
+    e.stopPropagation();
+    window._avatarDropdown.classList.remove('show');
+    const saved = localStorage.getItem('userAvatar');
+    lightboxContent.innerHTML = saved
+      ? `<img src="${saved}" alt="头像">`
+      : `<div class="avatar-fallback">陈</div>`;
+    lightbox.classList.add('show');
+  });
+  document.getElementById('btnChange').addEventListener('click', (e) => {
+    e.stopPropagation();
+    window._avatarDropdown.classList.remove('show');
+    avatarInput.click();
+  });
+  window._heroAvatar.addEventListener('click', (e) => {
+    e.stopPropagation();
+    window._avatarDropdown.classList.toggle('show');
+  });
+}
+
+(function initAvatar() {
+  const saved = localStorage.getItem('userAvatar');
+  if (saved) {
+    heroAvatar.innerHTML = `<img src="${saved}" alt="头像"><div class="avatar-overlay">📷</div><div class="avatar-dropdown" id="avatarDropdown"><button id="btnView">🔍 查看头像</button><button id="btnChange">📁 更换头像</button></div>`;
+    // Re-bind after replacing innerHTML
+    const av = document.getElementById('heroAvatar');
+    const dd = document.getElementById('avatarDropdown');
+    av.addEventListener('click', (e) => { e.stopPropagation(); dd.classList.toggle('show'); });
+    document.getElementById('btnView').addEventListener('click', (e) => {
+      e.stopPropagation(); dd.classList.remove('show');
+      const s = localStorage.getItem('userAvatar');
+      lightboxContent.innerHTML = s ? `<img src="${s}" alt="头像">` : `<div class="avatar-fallback">陈</div>`;
+      lightbox.classList.add('show');
+    });
+    document.getElementById('btnChange').addEventListener('click', (e) => {
+      e.stopPropagation(); dd.classList.remove('show'); avatarInput.click();
+    });
+  }
+})();
 </script>
 </body>
 </html>
