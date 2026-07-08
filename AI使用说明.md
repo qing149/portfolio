@@ -30,7 +30,6 @@
 
 | 问题 | AI 解决方案 |
 |------|------------|
-| **Word 文件被占用导致写入失败** | AI 检测到 PermissionError，自动将输出文件名改为 `_v2` 版本 |
 | **Surge.sh 需要交互式登录无法自动化** | AI 立即切换方案，改用 localtunnel 实现免登录部署 |
 | **Vercel CLI 参数报错**（`--public` 不支持） | AI 捕获错误后放弃该方案，转向更稳定的替代方案 |
 | **GitHub CLI (gh) 安装失败**（winget 错误） | AI 改用传统 git + 手动创建仓库的方式，提供详细操作指令 |
@@ -39,7 +38,7 @@
 
 ## 5. 最终网站链接
 
-**线上地址**：🌐 **https://qing149.github.io/portfolio/**
+**线上地址**： **https://qing149.github.io/portfolio/**
 
 ---
 
