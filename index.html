@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陈凯 - 个人主页</title>
+<style>
+/* ===== Reset & Base ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  color:#2c3e50;background:#f8fafc;line-height:1.7;overflow-x:hidden
+}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* ===== Variables ===== */
+:root{
+  --primary:#1a56db;
+  --primary-dark:#1242b0;
+  --primary-light:#eef3fc;
+  --accent:#00b4d8;
+  --dark:#1a1a2e;
+  --gray:#64748b;
+  --light-gray:#e2e8f0;
+  --bg:#f8fafc;
+  --card-bg:#fff;
+  --shadow:0 2px 16px rgba(0,0,0,.06);
+  --shadow-hover:0 8px 32px rgba(26,86,219,.12);
+  --radius:12px;
+}
+
+/* ===== Navbar ===== */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--light-gray);
+  padding:0 2rem;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:box-shadow .3s
+}
+.navbar.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+.nav-logo{font-size:1.25rem;font-weight:700;color:var(--primary)}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{
+  font-size:.9rem;color:var(--gray);font-weight:500;
+  padding:.4rem 0;border-bottom:2px solid transparent;
+  transition:color .3s,border-color .3s
+}
+.nav-links a:hover,.nav-links a.active{color:var(--primary);border-bottom-color:var(--primary)}
+
+/* ===== Hero ===== */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 30%, #f8fafc 70%, #eef3fc 100%);
+  position:relative;overflow:hidden;padding:2rem
+}
+.hero::before{
+  content:'';position:absolute;top:-20%;right:-10%;
+  width:500px;height:500px;
+  background:radial-gradient(circle, rgba(26,86,219,.06) 0%, transparent 70%);
+  border-radius:50%
+}
+.hero::after{
+  content:'';position:absolute;bottom:-10%;left:-5%;
+  width:400px;height:400px;
+  background:radial-gradient(circle, rgba(0,180,216,.05) 0%, transparent 70%);
+  border-radius:50%
+}
+.hero-content{text-align:center;position:relative;z-index:1;max-width:700px}
+.hero-avatar{
+  width:90px;height:90px;border-radius:50%;
+  background:linear-gradient(135deg, var(--primary), var(--accent));
+  margin:0 auto 1.5rem;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;color:#fff;font-weight:700;
+  box-shadow:0 8px 32px rgba(26,86,219,.2)
+}
+.hero h1{font-size:2.8rem;font-weight:800;color:var(--dark);margin-bottom:.5rem;letter-spacing:2px}
+.hero .subtitle{font-size:1.15rem;color:var(--gray);margin-bottom:.5rem;font-weight:400}
+.hero .tagline{font-size:.95rem;color:var(--gray);margin-bottom:2rem;line-height:1.8}
+.hero .tagline span{display:inline-block;background:var(--primary-light);color:var(--primary);
+  padding:.15rem .6rem;border-radius:4px;margin:0 .15rem;font-size:.85rem;font-weight:500}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{
+  padding:.65rem 1.8rem;border-radius:8px;font-size:.95rem;font-weight:600;
+  cursor:pointer;transition:all .3s;border:none;display:inline-block
+}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,86,219,.3)}
+.btn-outline{background:#fff;color:var(--primary);border:2px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light);transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  animation:bounce 2s infinite;color:var(--gray);font-size:.8rem}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ===== Sections ===== */
+section{padding:5rem 2rem}
+.section-header{text-align:center;margin-bottom:3rem}
+.section-header h2{font-size:2rem;font-weight:800;color:var(--dark);margin-bottom:.5rem}
+.section-header .line{
+  width:50px;height:3px;background:var(--primary);margin:.6rem auto 0;border-radius:2px
+}
+.section-header p{color:var(--gray);font-size:.95rem;margin-top:.4rem}
+.container{max-width:900px;margin:0 auto}
+
+/* ===== About ===== */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.about-card{
+  background:var(--card-bg);border-radius:var(--radius);padding:1.8rem;
+  box-shadow:var(--shadow);border:1px solid var(--light-gray);
+  transition:box-shadow .3s
+}
+.about-card:hover{box-shadow:var(--shadow-hover)}
+.about-card h3{font-size:1.05rem;color:var(--primary);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.about-card h3 .icon{font-size:1.3rem}
+.about-card p,.about-card li{font-size:.9rem;color:var(--gray);line-height:1.8}
+.about-card.full-width{grid-column:1/-1}
+.info-row{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid #f1f5f9;font-size:.9rem}
+.info-row:last-child{border-bottom:none}
+.info-row .label{color:var(--gray);font-weight:500}
+.info-row .val{color:var(--dark);font-weight:600}
+
+/* ===== Skills ===== */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.skill-card{
+  background:var(--card-bg);border-radius:var(--radius);padding:1.5rem 1.2rem;
+  box-shadow:var(--shadow);border:1px solid var(--light-gray);
+  text-align:center;transition:all .3s;cursor:default
+}
+.skill-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.skill-icon{font-size:2rem;margin-bottom:.6rem}
+.skill-card h4{font-size:.95rem;color:var(--dark);margin-bottom:.4rem}
+.skill-card p{font-size:.82rem;color:var(--gray);line-height:1.6}
+
+/* ===== Project ===== */
+.project-card{
+  background:var(--card-bg);border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid var(--light-gray);
+  transition:box-shadow .3s
+}
+.project-card:hover{box-shadow:var(--shadow-hover)}
+.project-header{
+  padding:2rem 2rem 0;
+  border-left:4px solid var(--primary);margin-left:0
+}
+.project-header h3{font-size:1.3rem;color:var(--dark);margin-bottom:.4rem}
+.project-meta{font-size:.85rem;color:var(--gray);margin-bottom:.8rem}
+.project-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.project-tags span{
+  background:var(--primary-light);color:var(--primary);
+  padding:.2rem .7rem;border-radius:20px;font-size:.78rem;font-weight:500
+}
+.project-body{padding:0 2rem 2rem}
+.project-body h4{font-size:.95rem;color:var(--primary);margin:1rem 0 .4rem}
+.project-body p{font-size:.9rem;color:var(--gray);line-height:1.8}
+.project-features{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1.5rem;margin-top:.8rem}
+.project-features li{font-size:.88rem;color:var(--gray);padding:.3rem 0}
+.project-features li::before{content:'▸ ';color:var(--primary);font-weight:700}
+
+/* ===== Contact ===== */
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.contact-card{
+  background:var(--card-bg);border-radius:var(--radius);padding:1.5rem;
+  box-shadow:var(--shadow);border:1px solid var(--light-gray);
+  text-align:center;transition:all .3s
+}
+.contact-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.contact-icon{font-size:2rem;margin-bottom:.5rem}
+.contact-card h4{font-size:.9rem;color:var(--dark);margin-bottom:.3rem}
+.contact-card p{font-size:.88rem;color:var(--gray)}
+
+/* ===== Footer ===== */
+footer{
+  text-align:center;padding:2rem;color:var(--gray);font-size:.82rem;
+  border-top:1px solid var(--light-gray)
+}
+footer span{color:var(--primary)}
+
+/* ===== Fade-in Animation ===== */
+.fade-section{
+  opacity:0;transform:translateY(30px);
+  transition:opacity .6s ease,transform .6s ease
+}
+.fade-section.visible{opacity:1;transform:translateY(0)}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .hero h1{font-size:2rem}
+  .about-grid{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:1fr}
+  .project-features{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Navbar ===== -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="nav-logo">CK</a>
+  <ul class="nav-links">
+    <li><a href="#home" class="active">首页</a></li>
+    <li><a href="#about">关于</a></li>
+    <li><a href="#skills">技能</a></li>
+    <li><a href="#project">项目</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-avatar">陈</div>
+    <h1>陈&ensp;凯</h1>
+    <p class="subtitle">数据科学与大数据技术 · 本科应届</p>
+    <p class="tagline">
+      掌握 <span>Python</span> <span>FastAPI</span> <span>React</span> <span>TypeScript</span><br>
+      专注于后端开发与数据分析，热爱用技术解决实际问题
+    </p>
+    <div class="hero-btns">
+      <a href="#project" class="btn btn-primary">查看项目</a>
+      <a href="#contact" class="btn btn-outline">联系我</a>
+    </div>
+  </div>
+  <div class="scroll-hint">▼ 向下滚动</div>
+</section>
+
+<!-- ===== About ===== -->
+<section id="about">
+<div class="container">
+  <div class="section-header fade-section">
+    <h2>关于我</h2>
+    <div class="line"></div>
+    <p>一名即将毕业的本科生，对技术充满热情</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-card fade-section">
+      <h3><span class="icon">🎓</span>教育背景</h3>
+      <div>
+        <div class="info-row"><span class="label">学校</span><span class="val">泰山科技学院</span></div>
+        <div class="info-row"><span class="label">学院</span><span class="val">大数据学院</span></div>
+        <div class="info-row"><span class="label">专业</span><span class="val">数据科学与大数据技术</span></div>
+        <div class="info-row"><span class="label">学历</span><span class="val">本科（2022-2026）</span></div>
+        <div class="info-row"><span class="label">成绩</span><span class="val">班级前 10%</span></div>
+      </div>
+    </div>
+    <div class="about-card fade-section">
+      <h3><span class="icon">📍</span>基本信息</h3>
+      <div>
+        <div class="info-row"><span class="label">姓名</span><span class="val">陈凯</span></div>
+        <div class="info-row"><span class="label">年龄</span><span class="val">22 岁</span></div>
+        <div class="info-row"><span class="label">籍贯</span><span class="val">江西省</span></div>
+        <div class="info-row"><span class="label">证书</span><span class="val">CET-4</span></div>
+        <div class="info-row"><span class="label">状态</span><span class="val">应届求职中</span></div>
+      </div>
+    </div>
+    <div class="about-card full-width fade-section">
+      <h3><span class="icon">💡</span>自我评价</h3>
+      <p style="line-height:2">
+        专业基础扎实，具备 Python 全栈开发（FastAPI + React）的独立开发能力。
+        通过毕业设计项目完整经历了<span style="color:var(--primary);font-weight:600">需求分析 → 系统设计 → 编码实现 → 测试部署</span>的全流程。
+        具有较强自驱力与学习能力，做事认真负责，对技术保持持续热情。
+      </p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== Skills ===== -->
+<section id="skills" style="background:#fff">
+<div class="container">
+  <div class="section-header fade-section">
+    <h2>技能掌握</h2>
+    <div class="line"></div>
+    <p>持续学习中，不断拓展技术边界</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card fade-section">
+      <div class="skill-icon">🐍</div>
+      <h4>Python</h4>
+      <p>熟练掌握，具备 FastAPI 后端开发经验</p>
+    </div>
+    <div class="skill-card fade-section">
+      <div class="skill-icon">⚛️</div>
+      <h4>React + TypeScript</h4>
+      <p>独立构建前端用户界面</p>
+    </div>
+    <div class="skill-card fade-section">
+      <div class="skill-icon">🗄️</div>
+      <h4>MySQL</h4>
+      <p>数据库设计与 SQL 查询优化</p>
+    </div>
+    <div class="skill-card fade-section">
+      <div class="skill-icon">📊</div>
+      <h4>数据分析</h4>
+      <p>Pandas · NumPy · 数据可视化</p>
+    </div>
+    <div class="skill-card fade-section">
+      <div class="skill-icon">🗺️</div>
+      <h4>地图服务</h4>
+      <p>高德地图 JSAPI · 定位与导航</p>
+    </div>
+    <div class="skill-card fade-section">
+      <div class="skill-icon">📱</div>
+      <h4>移动端适配</h4>
+      <p>Capacitor 跨平台打包</p>
+    </div>
+    <div class="skill-card fade-section">
+      <div class="skill-icon">🔧</div>
+      <h4>开发工具</h4>
+      <p>Git · VS Code · Postman</p>
+    </div>
+    <div class="skill-card fade-section">
+      <div class="skill-icon">🐧</div>
+      <h4>Linux</h4>
+      <p>基本操作与服务器部署</p>
+    </div>
+    <div class="skill-card fade-section">
+      <div class="skill-icon">🌐</div>
+      <h4>RESTful API</h4>
+      <p>接口设计 · 用户认证 · 数据交互</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== Project ===== -->
+<section id="project">
+<div class="container">
+  <div class="section-header fade-section">
+    <h2>项目经历</h2>
+    <div class="line"></div>
+    <p>从零到一，独立完成的毕业设计作品</p>
+  </div>
+  <div class="project-card fade-section">
+    <div class="project-header">
+      <h3>基于 Python 的共享单车用户出行指南系统</h3>
+      <p class="project-meta">📅 2025.09 — 2026.06 ｜ 🎓 毕业设计 ｜ 👤 独立完成</p>
+      <div class="project-tags">
+        <span>Python</span><span>FastAPI</span><span>React</span><span>TypeScript</span>
+        <span>高德地图 JSAPI</span><span>Capacitor</span><span>MySQL</span>
+      </div>
+    </div>
+    <div class="project-body">
+      <p>针对当前共享单车市场中各品牌 App 独立运营、用户需在多款软件间频繁切换的痛点，设计并实现了一套综合性的共享单车出行指南系统，为用户提供便捷、高效的一站式出行服务。</p>
+      <h4>主要工作</h4>
+      <ul class="project-features">
+        <li>FastAPI 后端，实现用户认证与骑行管理</li>
+        <li>React + TS 构建前端用户界面</li>
+        <li>高德地图 JSAPI 实现车辆定位与导航</li>
+        <li>Capacitor 实现移动端原生打包</li>
+        <li>骑行数据可视化与统计分析</li>
+        <li>前后端联调，系统稳定运行</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section id="contact" style="background:#fff">
+<div class="container">
+  <div class="section-header fade-section">
+    <h2>联系我</h2>
+    <div class="line"></div>
+    <p>期待与您的交流</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card fade-section">
+      <div class="contact-icon">📧</div>
+      <h4>邮箱</h4>
+      <p>2264835948@qq.com</p>
+    </div>
+    <div class="contact-card fade-section">
+      <div class="contact-icon">📱</div>
+      <h4>手机</h4>
+      <p>15376221512</p>
+    </div>
+    <div class="contact-card fade-section">
+      <div class="contact-icon">💬</div>
+      <h4>微信</h4>
+      <p>同手机号</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <p>© 2026 <span>陈凯</span> · 个人主页 · 持续构建中 🚀</p>
+</footer>
+
+<!-- ===== Scripts ===== -->
+<script>
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Active nav link
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if(window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.15});
+document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+// Trigger initial visible sections
+setTimeout(() => observer.flicker?.(), 100);
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.fade-section').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight) el.classList.add('visible');
+  });
+});
+// Also trigger manually
+setTimeout(() => {
+  document.querySelectorAll('.fade-section').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight) el.classList.add('visible');
+  });
+}, 300);
+</script>
+</body>
+</html>
