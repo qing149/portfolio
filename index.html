@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,74 +10,92 @@
 html{scroll-behavior:smooth;font-size:16px}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-  color:#2c3e50;background:#f8fafc;line-height:1.7;overflow-x:hidden
+  color:var(--text);background:var(--bg);line-height:1.7;overflow-x:hidden;
+  transition:background .3s,color .3s
 }
 a{text-decoration:none;color:inherit}
 ul{list-style:none}
 
-/* ===== Variables ===== */
+/* ===== Light Theme (default) ===== */
 :root{
-  --primary:#1a56db;
-  --primary-dark:#1242b0;
-  --primary-light:#eef3fc;
-  --accent:#00b4d8;
-  --dark:#1a1a2e;
-  --gray:#64748b;
-  --light-gray:#e2e8f0;
-  --bg:#f8fafc;
-  --card-bg:#fff;
-  --shadow:0 2px 16px rgba(0,0,0,.06);
-  --shadow-hover:0 8px 32px rgba(26,86,219,.12);
-  --radius:12px;
+  --primary:#1a56db;--primary-dark:#1242b0;--primary-light:#eef3fc;
+  --accent:#00b4d8;--text:#2c3e50;--text-secondary:#64748b;
+  --border:#e2e8f0;--bg:#f8fafc;--card-bg:#fff;--card-bg-alt:#f9fafb;
+  --shadow:0 2px 16px rgba(0,0,0,.06);--shadow-hover:0 8px 32px rgba(26,86,219,.12);
+  --navbar-bg:rgba(255,255,255,.85);--radius:12px;
+  --hero-start:#f0f4ff;--hero-mid:#e8f0fe;--hero-end:#f8fafc;
+  --info-border:#f1f5f9;--tag-bg:#eef3fc;
 }
+
+/* ===== Dark Theme ===== */
+[data-theme="dark"]{
+  --primary:#5b8def;--primary-dark:#7aa5ff;--primary-light:#1a2d50;
+  --accent:#00c8e8;--text:#dce3ed;--text-secondary:#94a3b8;
+  --border:#2d3748;--bg:#0f172a;--card-bg:#1e293b;--card-bg-alt:#1a2332;
+  --shadow:0 2px 16px rgba(0,0,0,.3);--shadow-hover:0 8px 32px rgba(91,141,239,.2);
+  --navbar-bg:rgba(15,23,42,.88);--radius:12px;
+  --hero-start:#0f172a;--hero-mid:#131d33;--hero-end:#0f172a;
+  --info-border:#2d3748;--tag-bg:#1a2d50;
+}
+[data-theme="dark"] .navbar{border-bottom-color:var(--border)}
+[data-theme="dark"] .hero::before{background:radial-gradient(circle,rgba(91,141,239,.1) 0%,transparent 70%)}
+[data-theme="dark"] .hero::after{background:radial-gradient(circle,rgba(0,200,232,.08) 0%,transparent 70%)}
+[data-theme="dark"] .btn-outline{background:var(--card-bg)}
+[data-theme="dark"] #skills,[data-theme="dark"] #contact{background:var(--bg)!important}
+[data-theme="dark"] .lightbox{background:rgba(0,0,0,.85)}
 
 /* ===== Navbar ===== */
 .navbar{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(255,255,255,.85);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--light-gray);
-  padding:0 2rem;height:60px;
+  background:var(--navbar-bg);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 1.5rem;height:60px;
   display:flex;align-items:center;justify-content:space-between;
   transition:box-shadow .3s
 }
-.navbar.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+.navbar.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.1)}
+.nav-left{display:flex;align-items:center;gap:1.5rem}
 .nav-logo{font-size:1.25rem;font-weight:700;color:var(--primary)}
-.nav-links{display:flex;gap:2rem}
-.nav-links a{
-  font-size:.9rem;color:var(--gray);font-weight:500;
-  padding:.4rem 0;border-bottom:2px solid transparent;
-  transition:color .3s,border-color .3s
-}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-size:.88rem;color:var(--text-secondary);font-weight:500;padding:.4rem 0;border-bottom:2px solid transparent;transition:color .3s,border-color .3s}
 .nav-links a:hover,.nav-links a.active{color:var(--primary);border-bottom-color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.nav-btn{
+  width:36px;height:36px;border-radius:8px;border:1px solid var(--border);
+  background:var(--card-bg);cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;color:var(--text)
+}
+.nav-btn:hover{background:var(--primary-light);border-color:var(--primary)}
+.nav-btn.active-lang{background:var(--primary);color:#fff;border-color:var(--primary);font-weight:700;font-size:.75rem}
 
 /* ===== Hero ===== */
 .hero{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 30%, #f8fafc 70%, #eef3fc 100%);
+  background:linear-gradient(135deg,var(--hero-start) 0%,var(--hero-mid) 30%,var(--hero-end) 70%,#eef3fc 100%);
   position:relative;overflow:hidden;padding:2rem
 }
+[data-theme="dark"] .hero{background:linear-gradient(135deg,var(--hero-start) 0%,var(--hero-mid) 30%,var(--hero-end) 70%,#0d1625 100%)}
 .hero::before{
   content:'';position:absolute;top:-20%;right:-10%;
   width:500px;height:500px;
-  background:radial-gradient(circle, rgba(26,86,219,.06) 0%, transparent 70%);
+  background:radial-gradient(circle,rgba(26,86,219,.06) 0%,transparent 70%);
   border-radius:50%
 }
 .hero::after{
   content:'';position:absolute;bottom:-10%;left:-5%;
   width:400px;height:400px;
-  background:radial-gradient(circle, rgba(0,180,216,.05) 0%, transparent 70%);
+  background:radial-gradient(circle,rgba(0,180,216,.05) 0%,transparent 70%);
   border-radius:50%
 }
 .hero-content{text-align:center;position:relative;z-index:1;max-width:700px}
 .hero-avatar{
   width:90px;height:90px;border-radius:50%;
-  background:linear-gradient(135deg, var(--primary), var(--accent));
-  margin:0 auto 1.5rem;
-  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;
   font-size:2.2rem;color:#fff;font-weight:700;
   box-shadow:0 8px 32px rgba(26,86,219,.2);
-  cursor:pointer;position:relative;
-  transition:transform .3s,box-shadow .3s;user-select:none
+  cursor:pointer;position:relative;transition:transform .3s,box-shadow .3s;user-select:none
 }
 .hero-avatar:hover{transform:scale(1.06);box-shadow:0 12px 40px rgba(26,86,219,.3)}
 .hero-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
@@ -87,162 +105,119 @@ ul{list-style:none}
   opacity:0;transition:opacity .3s;font-size:.75rem;color:#fff
 }
 .hero-avatar:hover .avatar-overlay{opacity:1}
+.hero h1{font-size:2.8rem;font-weight:800;color:var(--text);margin-bottom:.5rem;letter-spacing:2px}
+.hero .subtitle{font-size:1.15rem;color:var(--text-secondary);margin-bottom:.5rem;font-weight:400}
+.hero .tagline{font-size:.95rem;color:var(--text-secondary);margin-bottom:2rem;line-height:1.8}
+.hero .tagline span{display:inline-block;background:var(--tag-bg);color:var(--primary);padding:.15rem .6rem;border-radius:4px;margin:0 .15rem;font-size:.85rem;font-weight:500}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{padding:.65rem 1.8rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .3s;border:none;display:inline-block}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,86,219,.3)}
+.btn-outline{background:var(--card-bg);color:var(--primary);border:2px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light);transform:translateY(-2px)}
+.btn-pdf{background:var(--card-bg);color:#e74c3c;border:2px solid #e74c3c}
+.btn-pdf:hover{background:#fef2f2;transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);animation:bounce 2s infinite;color:var(--text-secondary);font-size:.8rem}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
 /* ===== Avatar Dropdown ===== */
 .avatar-dropdown{
   position:absolute;top:105px;left:50%;transform:translateX(-50%);
-  background:#fff;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.15);
-  padding:.4rem;min-width:150px;z-index:50;
-  opacity:0;visibility:hidden;transform-origin:top center;
-  transition:opacity .25s,visibility .25s,transform .25s;
-  border:1px solid var(--light-gray)
+  background:var(--card-bg);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.15);
+  padding:.4rem;min-width:160px;z-index:50;
+  opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;
+  border:1px solid var(--border)
 }
+[data-theme="dark"] .avatar-dropdown{box-shadow:0 8px 32px rgba(0,0,0,.5)}
 .avatar-dropdown.show{opacity:1;visibility:visible}
 .avatar-dropdown button{
   display:block;width:100%;padding:.6rem 1rem;border:none;background:none;
-  cursor:pointer;font-size:.85rem;color:var(--dark);text-align:left;
+  cursor:pointer;font-size:.85rem;color:var(--text);text-align:left;
   border-radius:6px;transition:background .2s;font-family:inherit
 }
 .avatar-dropdown button:hover{background:var(--primary-light);color:var(--primary)}
 
-/* ===== Avatar Lightbox ===== */
-.lightbox{
-  position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s
-}
+/* ===== Lightbox ===== */
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .lightbox.show{opacity:1;visibility:visible}
-.lightbox-content{
-  max-width:420px;max-height:80vh;text-align:center
-}
-.lightbox-content img{
-  max-width:100%;max-height:60vh;border-radius:16px;
-  box-shadow:0 16px 48px rgba(0,0,0,.4)
-}
-.lightbox-close{
-  position:absolute;top:2rem;right:2rem;width:40px;height:40px;
-  border-radius:50%;border:none;background:rgba(255,255,255,.2);
-  color:#fff;font-size:1.4rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .3s
-}
+.lightbox-content{max-width:420px;max-height:80vh;text-align:center}
+.lightbox-content img{max-width:100%;max-height:60vh;border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.lightbox-close{position:absolute;top:2rem;right:2rem;width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s}
 .lightbox-close:hover{background:rgba(255,255,255,.35)}
-.lightbox .avatar-fallback{
-  width:200px;height:200px;border-radius:50%;
-  background:linear-gradient(135deg, var(--primary), var(--accent));
-  margin:0 auto;display:flex;align-items:center;justify-content:center;
-  font-size:4rem;color:#fff;font-weight:700
-}
-
-/* hidden file input */
+.lightbox .avatar-fallback{width:200px;height:200px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:4rem;color:#fff;font-weight:700}
 #avatarInput{display:none}
-.hero h1{font-size:2.8rem;font-weight:800;color:var(--dark);margin-bottom:.5rem;letter-spacing:2px}
-.hero .subtitle{font-size:1.15rem;color:var(--gray);margin-bottom:.5rem;font-weight:400}
-.hero .tagline{font-size:.95rem;color:var(--gray);margin-bottom:2rem;line-height:1.8}
-.hero .tagline span{display:inline-block;background:var(--primary-light);color:var(--primary);
-  padding:.15rem .6rem;border-radius:4px;margin:0 .15rem;font-size:.85rem;font-weight:500}
-.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.btn{
-  padding:.65rem 1.8rem;border-radius:8px;font-size:.95rem;font-weight:600;
-  cursor:pointer;transition:all .3s;border:none;display:inline-block
-}
-.btn-primary{background:var(--primary);color:#fff}
-.btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,86,219,.3)}
-.btn-outline{background:#fff;color:var(--primary);border:2px solid var(--primary)}
-.btn-outline:hover{background:var(--primary-light);transform:translateY(-2px)}
-.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
-  animation:bounce 2s infinite;color:var(--gray);font-size:.8rem}
-@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
 /* ===== Sections ===== */
 section{padding:5rem 2rem}
 .section-header{text-align:center;margin-bottom:3rem}
-.section-header h2{font-size:2rem;font-weight:800;color:var(--dark);margin-bottom:.5rem}
-.section-header .line{
-  width:50px;height:3px;background:var(--primary);margin:.6rem auto 0;border-radius:2px
-}
-.section-header p{color:var(--gray);font-size:.95rem;margin-top:.4rem}
+.section-header h2{font-size:2rem;font-weight:800;color:var(--text);margin-bottom:.5rem}
+.section-header .line{width:50px;height:3px;background:var(--primary);margin:.6rem auto 0;border-radius:2px}
+.section-header p{color:var(--text-secondary);font-size:.95rem;margin-top:.4rem}
 .container{max-width:900px;margin:0 auto}
 
 /* ===== About ===== */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-.about-card{
-  background:var(--card-bg);border-radius:var(--radius);padding:1.8rem;
-  box-shadow:var(--shadow);border:1px solid var(--light-gray);
-  transition:box-shadow .3s
-}
+.about-card{background:var(--card-bg);border-radius:var(--radius);padding:1.8rem;box-shadow:var(--shadow);border:1px solid var(--border);transition:box-shadow .3s}
 .about-card:hover{box-shadow:var(--shadow-hover)}
 .about-card h3{font-size:1.05rem;color:var(--primary);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
 .about-card h3 .icon{font-size:1.3rem}
-.about-card p,.about-card li{font-size:.9rem;color:var(--gray);line-height:1.8}
+.about-card p,.about-card li{font-size:.9rem;color:var(--text-secondary);line-height:1.8}
 .about-card.full-width{grid-column:1/-1}
-.info-row{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid #f1f5f9;font-size:.9rem}
+.info-row{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid var(--info-border);font-size:.9rem}
 .info-row:last-child{border-bottom:none}
-.info-row .label{color:var(--gray);font-weight:500}
-.info-row .val{color:var(--dark);font-weight:600}
+.info-row .label{color:var(--text-secondary);font-weight:500}
+.info-row .val{color:var(--text);font-weight:600}
 
 /* ===== Skills ===== */
 .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
-.skill-card{
-  background:var(--card-bg);border-radius:var(--radius);padding:1.5rem 1.2rem;
-  box-shadow:var(--shadow);border:1px solid var(--light-gray);
-  text-align:center;transition:all .3s;cursor:default
-}
+.skill-card{background:var(--card-bg);border-radius:var(--radius);padding:1.5rem 1.2rem;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;transition:all .3s;cursor:default}
 .skill-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
 .skill-icon{font-size:2rem;margin-bottom:.6rem}
-.skill-card h4{font-size:.95rem;color:var(--dark);margin-bottom:.4rem}
-.skill-card p{font-size:.82rem;color:var(--gray);line-height:1.6}
+.skill-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.skill-card p{font-size:.82rem;color:var(--text-secondary);line-height:1.6}
 
 /* ===== Project ===== */
-.project-card{
-  background:var(--card-bg);border-radius:var(--radius);overflow:hidden;
-  box-shadow:var(--shadow);border:1px solid var(--light-gray);
-  transition:box-shadow .3s
-}
+.project-card{background:var(--card-bg);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);transition:box-shadow .3s}
 .project-card:hover{box-shadow:var(--shadow-hover)}
-.project-header{
-  padding:2rem 2rem 0;
-  border-left:4px solid var(--primary);margin-left:0
-}
-.project-header h3{font-size:1.3rem;color:var(--dark);margin-bottom:.4rem}
-.project-meta{font-size:.85rem;color:var(--gray);margin-bottom:.8rem}
+.project-header{padding:2rem 2rem 0;border-left:4px solid var(--primary)}
+.project-header h3{font-size:1.3rem;color:var(--text);margin-bottom:.4rem}
+.project-meta{font-size:.85rem;color:var(--text-secondary);margin-bottom:.8rem}
 .project-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
-.project-tags span{
-  background:var(--primary-light);color:var(--primary);
-  padding:.2rem .7rem;border-radius:20px;font-size:.78rem;font-weight:500
-}
+.project-tags span{background:var(--tag-bg);color:var(--primary);padding:.2rem .7rem;border-radius:20px;font-size:.78rem;font-weight:500}
 .project-body{padding:0 2rem 2rem}
 .project-body h4{font-size:.95rem;color:var(--primary);margin:1rem 0 .4rem}
-.project-body p{font-size:.9rem;color:var(--gray);line-height:1.8}
+.project-body p{font-size:.9rem;color:var(--text-secondary);line-height:1.8}
 .project-features{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1.5rem;margin-top:.8rem}
-.project-features li{font-size:.88rem;color:var(--gray);padding:.3rem 0}
+.project-features li{font-size:.88rem;color:var(--text-secondary);padding:.3rem 0}
 .project-features li::before{content:'▸ ';color:var(--primary);font-weight:700}
 
 /* ===== Contact ===== */
 .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
-.contact-card{
-  background:var(--card-bg);border-radius:var(--radius);padding:1.5rem;
-  box-shadow:var(--shadow);border:1px solid var(--light-gray);
-  text-align:center;transition:all .3s
-}
+.contact-card{background:var(--card-bg);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;transition:all .3s}
 .contact-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
 .contact-icon{font-size:2rem;margin-bottom:.5rem}
-.contact-card h4{font-size:.9rem;color:var(--dark);margin-bottom:.3rem}
-.contact-card p{font-size:.88rem;color:var(--gray)}
+.contact-card h4{font-size:.9rem;color:var(--text);margin-bottom:.3rem}
+.contact-card p{font-size:.88rem;color:var(--text-secondary)}
 
 /* ===== Footer ===== */
-footer{
-  text-align:center;padding:2rem;color:var(--gray);font-size:.82rem;
-  border-top:1px solid var(--light-gray)
-}
+footer{text-align:center;padding:2rem;color:var(--text-secondary);font-size:.82rem;border-top:1px solid var(--border)}
 footer span{color:var(--primary)}
 
-/* ===== Fade-in Animation ===== */
-.fade-section{
-  opacity:0;transform:translateY(30px);
-  transition:opacity .6s ease,transform .6s ease
-}
+/* ===== Animations ===== */
+.fade-section{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
 .fade-section.visible{opacity:1;transform:translateY(0)}
+
+/* ===== Print / PDF ===== */
+@media print{
+  .navbar,.scroll-hint,.hero-btns,.nav-right,#avatarInput,.lightbox,.avatar-dropdown,.avatar-overlay{display:none!important}
+  .hero{min-height:auto;padding:2rem}
+  .hero-avatar{cursor:default}
+  section{padding:1.5rem 1rem;page-break-inside:avoid}
+  body{font-size:12px;color:#000!important;background:#fff!important}
+  .hero h1{font-size:1.8rem}
+  .section-header h2{font-size:1.3rem}
+  .skills-grid{grid-template-columns:repeat(3,1fr)}
+}
 
 /* ===== Responsive ===== */
 @media(max-width:768px){
@@ -253,20 +228,32 @@ footer span{color:var(--primary)}
   .project-features{grid-template-columns:1fr}
   .nav-links{display:none}
 }
+
+/* ===== Toast ===== */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:var(--bg);padding:.7rem 1.5rem;border-radius:8px;font-size:.9rem;z-index:300;transition:transform .3s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
 <!-- ===== Navbar ===== -->
 <nav class="navbar" id="navbar">
-  <a href="#" class="nav-logo">CK</a>
-  <ul class="nav-links">
-    <li><a href="#home" class="active">首页</a></li>
-    <li><a href="#about">关于</a></li>
-    <li><a href="#skills">技能</a></li>
-    <li><a href="#project">项目</a></li>
-    <li><a href="#contact">联系</a></li>
-  </ul>
+  <div class="nav-left">
+    <a href="#" class="nav-logo">CK</a>
+    <ul class="nav-links">
+      <li><a href="#home" class="active" data-i18n="nav.home">首页</a></li>
+      <li><a href="#about" data-i18n="nav.about">关于</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">技能</a></li>
+      <li><a href="#project" data-i18n="nav.project">项目</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">联系</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn" id="btnPdf" title="下载简历PDF">📄</button>
+    <button class="nav-btn active-lang" id="btnZh" title="中文">中</button>
+    <button class="nav-btn" id="btnEn" title="English">EN</button>
+    <button class="nav-btn" id="btnTheme" title="切换主题">🌙</button>
+  </div>
 </nav>
 
 <!-- ===== Hero ===== -->
@@ -275,343 +262,446 @@ footer span{color:var(--primary)}
     <div class="hero-avatar" id="heroAvatar">陈
       <div class="avatar-overlay">📷</div>
       <div class="avatar-dropdown" id="avatarDropdown">
-        <button id="btnView">🔍 查看头像</button>
-        <button id="btnChange">📁 更换头像</button>
+        <button id="btnView" data-i18n="avatar.view">🔍 查看头像</button>
+        <button id="btnChange" data-i18n="avatar.change">📁 更换头像</button>
       </div>
     </div>
-    <h1>陈&ensp;凯</h1>
-    <p class="subtitle">数据科学与大数据技术 · 本科应届</p>
+    <h1 data-i18n="hero.name">陈&ensp;凯</h1>
+    <p class="subtitle" data-i18n="hero.subtitle">数据科学与大数据技术 · 本科应届</p>
     <p class="tagline">
-      掌握 <span>Python</span> <span>FastAPI</span> <span>React</span> <span>TypeScript</span><br>
-      专注于后端开发与数据分析，热爱用技术解决实际问题
+      <span>Python</span> <span>FastAPI</span> <span>React</span> <span>TypeScript</span><br>
+      <span data-i18n="hero.tagline">专注于后端开发与数据分析，热爱用技术解决实际问题</span>
     </p>
     <div class="hero-btns">
-      <a href="#project" class="btn btn-primary">查看项目</a>
-      <a href="#contact" class="btn btn-outline">联系我</a>
+      <a href="#project" class="btn btn-primary" data-i18n="hero.btnProject">查看项目</a>
+      <a href="#contact" class="btn btn-outline" data-i18n="hero.btnContact">联系我</a>
+      <button class="btn btn-pdf" id="btnPdfHero" data-i18n="hero.btnPdf">📥 下载简历</button>
     </div>
   </div>
-  <div class="scroll-hint">▼ 向下滚动</div>
+  <div class="scroll-hint" data-i18n="hero.scroll">▼ 向下滚动</div>
 </section>
 
 <!-- ===== About ===== -->
-<section id="about">
-<div class="container">
+<section id="about"><div class="container">
   <div class="section-header fade-section">
-    <h2>关于我</h2>
-    <div class="line"></div>
-    <p>一名即将毕业的本科生，对技术充满热情</p>
+    <h2 data-i18n="about.title">关于我</h2><div class="line"></div>
+    <p data-i18n="about.desc">一名即将毕业的本科生，对技术充满热情</p>
   </div>
   <div class="about-grid">
     <div class="about-card fade-section">
-      <h3><span class="icon">🎓</span>教育背景</h3>
+      <h3><span class="icon">🎓</span><span data-i18n="about.edu">教育背景</span></h3>
       <div>
-        <div class="info-row"><span class="label">学校</span><span class="val">泰山科技学院</span></div>
-        <div class="info-row"><span class="label">学院</span><span class="val">大数据学院</span></div>
-        <div class="info-row"><span class="label">专业</span><span class="val">数据科学与大数据技术</span></div>
-        <div class="info-row"><span class="label">学历</span><span class="val">本科（2022-2026）</span></div>
-        <div class="info-row"><span class="label">成绩</span><span class="val">班级前 10%</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.school">学校</span><span class="val">泰山科技学院</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.college">学院</span><span class="val" data-i18n="about.collegeVal">大数据学院</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.major">专业</span><span class="val" data-i18n="about.majorVal">数据科学与大数据技术</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.degree">学历</span><span class="val" data-i18n="about.degreeVal">本科（2022-2026）</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.grade">成绩</span><span class="val" data-i18n="about.gradeVal">班级前 10%</span></div>
       </div>
     </div>
     <div class="about-card fade-section">
-      <h3><span class="icon">📍</span>基本信息</h3>
+      <h3><span class="icon">📍</span><span data-i18n="about.info">基本信息</span></h3>
       <div>
-        <div class="info-row"><span class="label">姓名</span><span class="val">陈凯</span></div>
-        <div class="info-row"><span class="label">年龄</span><span class="val">22 岁</span></div>
-        <div class="info-row"><span class="label">籍贯</span><span class="val">江西省</span></div>
-        <div class="info-row"><span class="label">证书</span><span class="val">CET-4</span></div>
-        <div class="info-row"><span class="label">状态</span><span class="val">应届求职中</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.name">姓名</span><span class="val">陈凯</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.age">年龄</span><span class="val">22 岁</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.hometown">籍贯</span><span class="val" data-i18n="about.hometownVal">江西省</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.cert">证书</span><span class="val">CET-4</span></div>
+        <div class="info-row"><span class="label" data-i18n="about.status">状态</span><span class="val" data-i18n="about.statusVal">应届求职中</span></div>
       </div>
     </div>
     <div class="about-card full-width fade-section">
-      <h3><span class="icon">💡</span>自我评价</h3>
-      <p style="line-height:2">
-        专业基础扎实，具备 Python 全栈开发（FastAPI + React）的独立开发能力。
-        通过毕业设计项目完整经历了<span style="color:var(--primary);font-weight:600">需求分析 → 系统设计 → 编码实现 → 测试部署</span>的全流程。
-        具有较强自驱力与学习能力，做事认真负责，对技术保持持续热情。
-      </p>
+      <h3><span class="icon">💡</span><span data-i18n="about.eval">自我评价</span></h3>
+      <p style="line-height:2" data-i18n-html="about.evalText"></p>
     </div>
   </div>
-</div>
-</section>
+</div></section>
 
 <!-- ===== Skills ===== -->
-<section id="skills" style="background:#fff">
-<div class="container">
+<section id="skills" style="background:#fff"><div class="container">
   <div class="section-header fade-section">
-    <h2>技能掌握</h2>
-    <div class="line"></div>
-    <p>持续学习中，不断拓展技术边界</p>
+    <h2 data-i18n="skills.title">技能掌握</h2><div class="line"></div>
+    <p data-i18n="skills.desc">持续学习中，不断拓展技术边界</p>
   </div>
-  <div class="skills-grid">
-    <div class="skill-card fade-section">
-      <div class="skill-icon">🐍</div>
-      <h4>Python</h4>
-      <p>熟练掌握，具备 FastAPI 后端开发经验</p>
-    </div>
-    <div class="skill-card fade-section">
-      <div class="skill-icon">⚛️</div>
-      <h4>React + TypeScript</h4>
-      <p>独立构建前端用户界面</p>
-    </div>
-    <div class="skill-card fade-section">
-      <div class="skill-icon">🗄️</div>
-      <h4>MySQL</h4>
-      <p>数据库设计与 SQL 查询优化</p>
-    </div>
-    <div class="skill-card fade-section">
-      <div class="skill-icon">📊</div>
-      <h4>数据分析</h4>
-      <p>Pandas · NumPy · 数据可视化</p>
-    </div>
-    <div class="skill-card fade-section">
-      <div class="skill-icon">🗺️</div>
-      <h4>地图服务</h4>
-      <p>高德地图 JSAPI · 定位与导航</p>
-    </div>
-    <div class="skill-card fade-section">
-      <div class="skill-icon">📱</div>
-      <h4>移动端适配</h4>
-      <p>Capacitor 跨平台打包</p>
-    </div>
-    <div class="skill-card fade-section">
-      <div class="skill-icon">🔧</div>
-      <h4>开发工具</h4>
-      <p>Git · VS Code · Postman</p>
-    </div>
-    <div class="skill-card fade-section">
-      <div class="skill-icon">🐧</div>
-      <h4>Linux</h4>
-      <p>基本操作与服务器部署</p>
-    </div>
-    <div class="skill-card fade-section">
-      <div class="skill-icon">🌐</div>
-      <h4>RESTful API</h4>
-      <p>接口设计 · 用户认证 · 数据交互</p>
-    </div>
-  </div>
-</div>
-</section>
+  <div class="skills-grid" id="skillsGrid"></div>
+</div></section>
 
 <!-- ===== Project ===== -->
-<section id="project">
-<div class="container">
+<section id="project"><div class="container">
   <div class="section-header fade-section">
-    <h2>项目经历</h2>
-    <div class="line"></div>
-    <p>从零到一，独立完成的毕业设计作品</p>
+    <h2 data-i18n="project.title">项目经历</h2><div class="line"></div>
+    <p data-i18n="project.desc">从零到一，独立完成的毕业设计作品</p>
   </div>
   <div class="project-card fade-section">
     <div class="project-header">
-      <h3>基于 Python 的共享单车用户出行指南系统</h3>
-      <p class="project-meta">📅 2025.09 — 2026.06 ｜ 🎓 毕业设计 ｜ 👤 独立完成</p>
-      <div class="project-tags">
-        <span>Python</span><span>FastAPI</span><span>React</span><span>TypeScript</span>
-        <span>高德地图 JSAPI</span><span>Capacitor</span><span>MySQL</span>
-      </div>
+      <h3 data-i18n="project.name">基于 Python 的共享单车用户出行指南系统</h3>
+      <p class="project-meta" data-i18n="project.meta">📅 2025.09 — 2026.06 ｜ 🎓 毕业设计 ｜ 👤 独立完成</p>
+      <div class="project-tags" id="projectTags"></div>
     </div>
     <div class="project-body">
-      <p>针对当前共享单车市场中各品牌 App 独立运营、用户需在多款软件间频繁切换的痛点，设计并实现了一套综合性的共享单车出行指南系统，为用户提供便捷、高效的一站式出行服务。</p>
-      <h4>主要工作</h4>
-      <ul class="project-features">
-        <li>FastAPI 后端，实现用户认证与骑行管理</li>
-        <li>React + TS 构建前端用户界面</li>
-        <li>高德地图 JSAPI 实现车辆定位与导航</li>
-        <li>Capacitor 实现移动端原生打包</li>
-        <li>骑行数据可视化与统计分析</li>
-        <li>前后端联调，系统稳定运行</li>
-      </ul>
+      <p data-i18n="project.intro"></p>
+      <h4 data-i18n="project.work">主要工作</h4>
+      <ul class="project-features" id="projectFeatures"></ul>
     </div>
   </div>
-</div>
-</section>
+</div></section>
 
 <!-- ===== Contact ===== -->
-<section id="contact" style="background:#fff">
-<div class="container">
+<section id="contact" style="background:#fff"><div class="container">
   <div class="section-header fade-section">
-    <h2>联系我</h2>
-    <div class="line"></div>
-    <p>期待与您的交流</p>
+    <h2 data-i18n="contact.title">联系我</h2><div class="line"></div>
+    <p data-i18n="contact.desc">期待与您的交流</p>
   </div>
   <div class="contact-grid">
-    <div class="contact-card fade-section">
-      <div class="contact-icon">📧</div>
-      <h4>邮箱</h4>
-      <p>2264835948@qq.com</p>
-    </div>
-    <div class="contact-card fade-section">
-      <div class="contact-icon">📱</div>
-      <h4>手机</h4>
-      <p>15376221512</p>
-    </div>
-    <div class="contact-card fade-section">
-      <div class="contact-icon">💬</div>
-      <h4>微信</h4>
-      <p>同手机号</p>
-    </div>
+    <div class="contact-card fade-section"><div class="contact-icon">📧</div><h4 data-i18n="contact.email">邮箱</h4><p>2264835948@qq.com</p></div>
+    <div class="contact-card fade-section"><div class="contact-icon">📱</div><h4 data-i18n="contact.phone">手机</h4><p>15376221512</p></div>
+    <div class="contact-card fade-section"><div class="contact-icon">💬</div><h4 data-i18n="contact.wechat">微信</h4><p data-i18n="contact.wechatVal">同手机号</p></div>
   </div>
-</div>
-</section>
+</div></section>
 
-<!-- ===== Avatar Lightbox ===== -->
+<!-- ===== Lightbox ===== -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose">✕</button>
   <div class="lightbox-content" id="lightboxContent"></div>
 </div>
 <input type="file" id="avatarInput" accept="image/*">
+<div class="toast" id="toast"></div>
 
-<!-- ===== Footer ===== -->
-<footer>
-  <p>© 2026 <span>陈凯</span> · 个人主页 · 持续构建中 🚀</p>
-</footer>
+<footer><p>© 2026 <span>陈凯</span> · <span data-i18n="footer.tag">个人主页 · 持续构建中</span> 🚀</p></footer>
+
+<!-- ===== html2pdf CDN ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <!-- ===== Scripts ===== -->
 <script>
-// ========== Navbar ==========
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
+// ========== I18N ==========
+const i18n = {
+  zh:{
+    'nav.home':'首页','nav.about':'关于','nav.skills':'技能','nav.project':'项目','nav.contact':'联系',
+    'hero.name':'陈 凯','hero.subtitle':'数据科学与大数据技术 · 本科应届',
+    'hero.tagline':'专注于后端开发与数据分析，热爱用技术解决实际问题',
+    'hero.btnProject':'查看项目','hero.btnContact':'联系我','hero.btnPdf':'📥 下载简历','hero.scroll':'▼ 向下滚动',
+    'about.title':'关于我','about.desc':'一名即将毕业的本科生，对技术充满热情',
+    'about.edu':'教育背景','about.school':'学校','about.college':'学院','about.collegeVal':'大数据学院',
+    'about.major':'专业','about.majorVal':'数据科学与大数据技术','about.degree':'学历','about.degreeVal':'本科（2022-2026）',
+    'about.grade':'成绩','about.gradeVal':'班级前 10%',
+    'about.info':'基本信息','about.name':'姓名','about.age':'年龄','about.hometown':'籍贯','about.hometownVal':'江西省',
+    'about.cert':'证书','about.status':'状态','about.statusVal':'应届求职中',
+    'about.eval':'自我评价',
+    'about.evalText':'专业基础扎实，具备 Python 全栈开发（FastAPI + React）的独立开发能力。通过毕业设计项目完整经历了<span style="color:var(--primary);font-weight:600">需求分析 → 系统设计 → 编码实现 → 测试部署</span>的全流程。具有较强自驱力与学习能力，做事认真负责，对技术保持持续热情。',
+    'skills.title':'技能掌握','skills.desc':'持续学习中，不断拓展技术边界',
+    'skills.python':'熟练掌握，具备 FastAPI 后端开发经验',
+    'skills.react':'独立构建前端用户界面',
+    'skills.mysql':'数据库设计与 SQL 查询优化',
+    'skills.data':'Pandas · NumPy · 数据可视化',
+    'skills.map':'高德地图 JSAPI · 定位与导航',
+    'skills.mobile':'Capacitor 跨平台打包',
+    'skills.tools':'Git · VS Code · Postman',
+    'skills.linux':'基本操作与服务器部署',
+    'skills.api':'接口设计 · 用户认证 · 数据交互',
+    'project.title':'项目经历','project.desc':'从零到一，独立完成的毕业设计作品',
+    'project.name':'基于 Python 的共享单车用户出行指南系统',
+    'project.meta':'📅 2025.09 — 2026.06 ｜ 🎓 毕业设计 ｜ 👤 独立完成',
+    'project.intro':'针对当前共享单车市场中各品牌 App 独立运营、用户需在多款软件间频繁切换的痛点，设计并实现了一套综合性的共享单车出行指南系统，为用户提供便捷、高效的一站式出行服务。',
+    'project.work':'主要工作',
+    'project.f1':'FastAPI 后端，实现用户认证与骑行管理',
+    'project.f2':'React + TS 构建前端用户界面',
+    'project.f3':'高德地图 JSAPI 实现车辆定位与导航',
+    'project.f4':'Capacitor 实现移动端原生打包',
+    'project.f5':'骑行数据可视化与统计分析',
+    'project.f6':'前后端联调，系统稳定运行',
+    'contact.title':'联系我','contact.desc':'期待与您的交流',
+    'contact.email':'邮箱','contact.phone':'手机','contact.wechat':'微信','contact.wechatVal':'同手机号',
+    'footer.tag':'个人主页 · 持续构建中',
+    'avatar.view':'🔍 查看头像','avatar.change':'📁 更换头像',
+    'toast.themeLight':'已切换至浅色模式','toast.themeDark':'已切换至深色模式',
+    'toast.langZh':'已切换至中文','toast.langEn':'Switched to English',
+    'toast.pdfStart':'正在生成 PDF...','toast.pdfDone':'PDF 下载已开始',
+    'toast.avatarSize':'图片大小不能超过 5MB',
+  },
+  en:{
+    'nav.home':'Home','nav.about':'About','nav.skills':'Skills','nav.project':'Project','nav.contact':'Contact',
+    'hero.name':'Chen&ensp;Kai','hero.subtitle':'Data Science & Big Data Technology · Fresh Graduate',
+    'hero.tagline':'Focused on backend development and data analysis, passionate about solving real-world problems with technology',
+    'hero.btnProject':'View Project','hero.btnContact':'Contact Me','hero.btnPdf':'📥 Download Resume','hero.scroll':'▼ Scroll Down',
+    'about.title':'About Me','about.desc':'A graduating undergraduate student passionate about technology',
+    'about.edu':'Education','about.school':'University','about.college':'College','about.collegeVal':'College of Big Data',
+    'about.major':'Major','about.majorVal':'Data Science & Big Data Technology','about.degree':'Degree','about.degreeVal':'Bachelor (2022-2026)',
+    'about.grade':'GPA','about.gradeVal':'Top 10% in Class',
+    'about.info':'Basic Info','about.name':'Name','about.age':'Age','about.hometown':'Hometown','about.hometownVal':'Jiangxi, China',
+    'about.cert':'Certificate','about.status':'Status','about.statusVal':'Actively Seeking Job',
+    'about.eval':'Self-Evaluation',
+    'about.evalText':'Solid foundation in Python full-stack development (FastAPI + React). Completed a complete <span style="color:var(--primary);font-weight:600">Requirements → Design → Implementation → Deployment</span> cycle through the graduation project. Strong self-motivation and learning ability, detail-oriented, and continuously passionate about technology.',
+    'skills.title':'Skills','skills.desc':'Continuously learning, expanding technical boundaries',
+    'skills.python':'Proficient, with FastAPI backend experience',
+    'skills.react':'Independent frontend UI development',
+    'skills.mysql':'Database design & SQL optimization',
+    'skills.data':'Pandas · NumPy · Data Visualization',
+    'skills.map':'AMap JSAPI · Location & Navigation',
+    'skills.mobile':'Capacitor cross-platform packaging',
+    'skills.tools':'Git · VS Code · Postman',
+    'skills.linux':'Basic operations & server deployment',
+    'skills.api':'API design · Authentication · Data exchange',
+    'project.title':'Projects','project.desc':'From scratch — my graduation project, built independently',
+    'project.name':'Python-Based Shared Bicycle Travel Guide System',
+    'project.meta':'📅 2025.09 — 2026.06 ｜ 🎓 Graduation Project ｜ 👤 Solo Project',
+    'project.intro':'To address the pain point of users switching between multiple brand-specific shared bicycle apps, I designed and implemented a comprehensive travel guide system that provides a convenient and efficient one-stop mobility service.',
+    'project.work':'Key Contributions',
+    'project.f1':'Built FastAPI backend with user auth & ride management',
+    'project.f2':'Built frontend UI with React + TypeScript',
+    'project.f3':'Integrated AMap JSAPI for vehicle positioning & navigation',
+    'project.f4':'Packaged as native mobile app via Capacitor',
+    'project.f5':'Developed ride data visualization & statistical analysis',
+    'project.f6':'Completed frontend-backend integration & API testing',
+    'contact.title':'Contact Me','contact.desc':'Looking forward to hearing from you',
+    'contact.email':'Email','contact.phone':'Phone','contact.wechat':'WeChat','contact.wechatVal':'Same as Phone',
+    'footer.tag':'Personal Site · Under Continuous Development',
+    'avatar.view':'🔍 View Avatar','avatar.change':'📁 Change Avatar',
+    'toast.themeLight':'Light mode activated','toast.themeDark':'Dark mode activated',
+    'toast.langZh':'已切换至中文','toast.langEn':'Switched to English',
+    'toast.pdfStart':'Generating PDF...','toast.pdfDone':'PDF download started',
+    'toast.avatarSize':'Image must be under 5MB',
+  }
+};
+
+let currentLang = localStorage.getItem('lang') || 'zh';
+
+function t(key){
+  const v = (i18n[currentLang] && i18n[currentLang][key]) || i18n.zh[key];
+  return v !== undefined ? v : key;
+}
+
+function applyI18n(){
+  document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+  // data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(!key) return;
+    // Skip spans inside tagline (handled specially)
+    if(el.tagName === 'A' && el.closest('.nav-links')) {
+      el.textContent = t(key);
+    } else {
+      el.textContent = t(key);
+    }
+  });
+  // data-i18n-html (rich text)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if(key) el.innerHTML = t(key);
+  });
+  // Update lang buttons
+  document.getElementById('btnZh').classList.toggle('active-lang', currentLang === 'zh');
+  document.getElementById('btnEn').classList.toggle('active-lang', currentLang === 'en');
+  // Re-render dynamic lists
+  renderSkills();
+  renderProject();
+  // Rebind avatar
+  rebindAvatarI18n();
+}
+
+// ========== THEME ==========
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+function applyTheme(){
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  const btn = document.getElementById('btnTheme');
+  btn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+}
+
+document.getElementById('btnTheme').addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('theme', currentTheme);
+  applyTheme();
+  showToast(t('toast.' + (currentTheme === 'dark' ? 'themeDark' : 'themeLight')));
 });
+
+// ========== LANGUAGE SWITCH ==========
+document.getElementById('btnZh').addEventListener('click', () => { currentLang='zh'; localStorage.setItem('lang','zh'); applyI18n(); showToast(t('toast.langZh')); });
+document.getElementById('btnEn').addEventListener('click', () => { currentLang='en'; localStorage.setItem('lang','en'); applyI18n(); showToast(t('toast.langEn')); });
+
+// ========== DYNAMIC RENDER ==========
+const skillsData = [
+  {icon:'🐍',key:'Python',desc:'skills.python'},
+  {icon:'⚛️',key:'React + TypeScript',desc:'skills.react'},
+  {icon:'🗄️',key:'MySQL',desc:'skills.mysql'},
+  {icon:'📊',key:'Data Analysis',desc:'skills.data'},
+  {icon:'🗺️',key:'Map Services',desc:'skills.map'},
+  {icon:'📱',key:'Mobile',desc:'skills.mobile'},
+  {icon:'🔧',key:'Dev Tools',desc:'skills.tools'},
+  {icon:'🐧',key:'Linux',desc:'skills.linux'},
+  {icon:'🌐',key:'RESTful API',desc:'skills.api'},
+];
+
+function renderSkills(){
+  const grid = document.getElementById('skillsGrid');
+  grid.innerHTML = skillsData.map(s =>
+    `<div class="skill-card fade-section visible"><div class="skill-icon">${s.icon}</div><h4>${s.key}</h4><p>${t(s.desc)}</p></div>`
+  ).join('');
+}
+
+const projectTagsData = ['Python','FastAPI','React','TypeScript','AMap JSAPI','Capacitor','MySQL'];
+const projectFeaturesData = ['project.f1','project.f2','project.f3','project.f4','project.f5','project.f6'];
+
+function renderProject(){
+  const tagContainer = document.getElementById('projectTags');
+  if(tagContainer) tagContainer.innerHTML = projectTagsData.map(tag => `<span>${tag}</span>`).join('');
+  const featContainer = document.getElementById('projectFeatures');
+  if(featContainer) featContainer.innerHTML = projectFeaturesData.map(k => `<li>${t(k)}</li>`).join('');
+}
+
+// ========== PDF DOWNLOAD ==========
+async function downloadPDF(){
+  showToast(t('toast.pdfStart'));
+  // Temporarily switch to light for PDF
+  const prevTheme = currentTheme;
+  if(currentTheme === 'dark'){ currentTheme = 'light'; applyTheme(); }
+  await new Promise(r => setTimeout(r, 300));
+
+  const el = document.body.cloneNode(true);
+  // Clean clone
+  el.querySelector('.navbar')?.remove();
+  el.querySelector('.scroll-hint')?.remove();
+  el.querySelector('.lightbox')?.remove();
+  el.querySelector('#avatarInput')?.remove();
+  el.querySelector('.toast')?.remove();
+  el.querySelectorAll('.avatar-dropdown,.avatar-overlay').forEach(e => e.remove());
+  el.querySelectorAll('.hero-btns').forEach(e => e.remove());
+  el.querySelector('.nav-right')?.remove();
+  el.querySelector('.nav-links')?.remove();
+  el.style.background = '#fff';
+  el.style.color = '#000';
+
+  const opt = {
+    margin: [0.4, 0.4, 0.4, 0.4],
+    filename: '陈凯_简历.pdf',
+    image: {type:'jpeg',quality:0.95},
+    html2canvas: {scale:2,useCORS:true,backgroundColor:'#ffffff'},
+    jsPDF: {unit:'in',format:'a4',orientation:'portrait'},
+    pagebreak: {mode:['avoid-all','css','legacy']}
+  };
+
+  await html2pdf().set(opt).from(el).save();
+
+  if(prevTheme === 'dark'){ currentTheme = 'dark'; applyTheme(); }
+  showToast(t('toast.pdfDone'));
+}
+
+document.getElementById('btnPdf').addEventListener('click', downloadPDF);
+document.getElementById('btnPdfHero').addEventListener('click', downloadPDF);
+
+// ========== TOAST ==========
+let toastTimer;
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ========== NAVBAR ==========
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
 
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll', () => {
   let current = '';
-  sections.forEach(s => {
-    if(window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
-  });
-  navLinks.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-  });
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id'); });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
 });
 
-// ========== Fade-in ==========
+// ========== FADE-IN ==========
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, {threshold:0.15});
 document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
 setTimeout(() => {
   document.querySelectorAll('.fade-section').forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if(rect.top < window.innerHeight) el.classList.add('visible');
+    if(el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
   });
 }, 300);
 
-// ========== Avatar ==========
+// ========== AVATAR ==========
 const heroAvatar = document.getElementById('heroAvatar');
-const avatarDropdown = document.getElementById('avatarDropdown');
-const btnView = document.getElementById('btnView');
-const btnChange = document.getElementById('btnChange');
+let avatarDropdown = document.getElementById('avatarDropdown');
 const lightbox = document.getElementById('lightbox');
 const lightboxContent = document.getElementById('lightboxContent');
 const lightboxClose = document.getElementById('lightboxClose');
 const avatarInput = document.getElementById('avatarInput');
 
-let dropdownTimer = null;
-
-// Click avatar → toggle dropdown
 heroAvatar.addEventListener('click', (e) => {
   e.stopPropagation();
   avatarDropdown.classList.toggle('show');
 });
+document.addEventListener('click', () => avatarDropdown.classList.remove('show'));
 
-// Close dropdown on outside click
-document.addEventListener('click', () => {
-  avatarDropdown.classList.remove('show');
-});
-
-// View avatar → lightbox
-btnView.addEventListener('click', (e) => {
-  e.stopPropagation();
-  avatarDropdown.classList.remove('show');
+// View avatar
+document.getElementById('btnView').addEventListener('click', (e) => {
+  e.stopPropagation(); avatarDropdown.classList.remove('show');
   const saved = localStorage.getItem('userAvatar');
-  if (saved) {
-    lightboxContent.innerHTML = `<img src="${saved}" alt="头像">`;
-  } else {
-    lightboxContent.innerHTML = `<div class="avatar-fallback">陈</div>`;
-  }
+  lightboxContent.innerHTML = saved ? `<img src="${saved}" alt="Avatar">` : `<div class="avatar-fallback">陈</div>`;
   lightbox.classList.add('show');
 });
 
-// Change avatar → file input
-btnChange.addEventListener('click', (e) => {
-  e.stopPropagation();
-  avatarDropdown.classList.remove('show');
-  avatarInput.click();
+// Change avatar
+document.getElementById('btnChange').addEventListener('click', (e) => {
+  e.stopPropagation(); avatarDropdown.classList.remove('show'); avatarInput.click();
 });
 
-// Handle file selection
 avatarInput.addEventListener('change', () => {
   const file = avatarInput.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) {
-    alert('图片大小不能超过 5MB');
-    return;
-  }
+  if(!file) return;
+  if(file.size > 5*1024*1024){ alert(t('toast.avatarSize')); return; }
   const reader = new FileReader();
   reader.onload = () => {
-    const dataUrl = reader.result;
-    localStorage.setItem('userAvatar', dataUrl);
-    heroAvatar.innerHTML = `<img src="${dataUrl}" alt="头像"><div class="avatar-overlay">📷</div><div class="avatar-dropdown" id="avatarDropdown"><button id="btnView">🔍 查看头像</button><button id="btnChange">📁 更换头像</button></div>`;
-    // Re-bind events
-    rebindAvatar();
+    localStorage.setItem('userAvatar', reader.result);
+    rebuildAvatarHTML(reader.result);
   };
   reader.readAsDataURL(file);
 });
 
-// Close lightbox
 lightboxClose.addEventListener('click', () => lightbox.classList.remove('show'));
-lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) lightbox.classList.remove('show');
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') lightbox.classList.remove('show');
-});
+lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.classList.remove('show'); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') lightbox.classList.remove('show'); });
 
-// Load saved avatar on init
-function rebindAvatar() {
-  // Re-reference elements after innerHTML
-  window._heroAvatar = document.getElementById('heroAvatar');
-  window._avatarDropdown = document.getElementById('avatarDropdown');
+function rebuildAvatarHTML(imgSrc){
+  const vKey = t('avatar.view'), cKey = t('avatar.change');
+  heroAvatar.innerHTML = `<img src="${imgSrc}" alt="Avatar"><div class="avatar-overlay">📷</div><div class="avatar-dropdown" id="avatarDropdown"><button id="btnView">${vKey}</button><button id="btnChange">${cKey}</button></div>`;
+  rebindAvatarEvents();
+}
+
+function rebindAvatarEvents(){
+  avatarDropdown = document.getElementById('avatarDropdown');
+  heroAvatar.addEventListener('click', (e) => { e.stopPropagation(); avatarDropdown.classList.toggle('show'); });
   document.getElementById('btnView').addEventListener('click', (e) => {
-    e.stopPropagation();
-    window._avatarDropdown.classList.remove('show');
-    const saved = localStorage.getItem('userAvatar');
-    lightboxContent.innerHTML = saved
-      ? `<img src="${saved}" alt="头像">`
-      : `<div class="avatar-fallback">陈</div>`;
+    e.stopPropagation(); avatarDropdown.classList.remove('show');
+    const s = localStorage.getItem('userAvatar');
+    lightboxContent.innerHTML = s ? `<img src="${s}" alt="Avatar">` : `<div class="avatar-fallback">陈</div>`;
     lightbox.classList.add('show');
   });
   document.getElementById('btnChange').addEventListener('click', (e) => {
-    e.stopPropagation();
-    window._avatarDropdown.classList.remove('show');
-    avatarInput.click();
-  });
-  window._heroAvatar.addEventListener('click', (e) => {
-    e.stopPropagation();
-    window._avatarDropdown.classList.toggle('show');
+    e.stopPropagation(); avatarDropdown.classList.remove('show'); avatarInput.click();
   });
 }
 
-(function initAvatar() {
+function rebindAvatarI18n(){
+  // Update avatar button text when language changes
+  const btnV = document.getElementById('btnView');
+  const btnC = document.getElementById('btnChange');
+  if(btnV) btnV.textContent = t('avatar.view');
+  if(btnC) btnC.textContent = t('avatar.change');
+}
+
+// Init - load saved avatar
+(function initAvatar(){
   const saved = localStorage.getItem('userAvatar');
-  if (saved) {
-    heroAvatar.innerHTML = `<img src="${saved}" alt="头像"><div class="avatar-overlay">📷</div><div class="avatar-dropdown" id="avatarDropdown"><button id="btnView">🔍 查看头像</button><button id="btnChange">📁 更换头像</button></div>`;
-    // Re-bind after replacing innerHTML
-    const av = document.getElementById('heroAvatar');
-    const dd = document.getElementById('avatarDropdown');
-    av.addEventListener('click', (e) => { e.stopPropagation(); dd.classList.toggle('show'); });
-    document.getElementById('btnView').addEventListener('click', (e) => {
-      e.stopPropagation(); dd.classList.remove('show');
-      const s = localStorage.getItem('userAvatar');
-      lightboxContent.innerHTML = s ? `<img src="${s}" alt="头像">` : `<div class="avatar-fallback">陈</div>`;
-      lightbox.classList.add('show');
-    });
-    document.getElementById('btnChange').addEventListener('click', (e) => {
-      e.stopPropagation(); dd.classList.remove('show'); avatarInput.click();
-    });
-  }
+  if(saved) rebuildAvatarHTML(saved);
 })();
+
+// ========== INIT ==========
+applyTheme();
+applyI18n();
+renderSkills();
+renderProject();
 </script>
 </body>
 </html>
